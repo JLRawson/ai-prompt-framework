@@ -1,0 +1,10 @@
+### **2. Task Prioritization**  
+   - **2.1 Priority Levels**: Users can assign a priority level (1-5) to each task.  
+     - Changes in priority should be logged for auditing.  
+     - The priority system should be flexible, allowing customization.  
+   - **2.2 Sorting by Priority**: Tasks can be sorted in order of priority.  
+     - Sorting operations should be efficient, even for large task lists.  
+     - Sorting preferences should be saved per user.  
+   - **2.3 Filtering by Priority**: Users can filter tasks based on priority levels.  
+     - Filtering should work seamlessly with other filters (categories, due dates, etc.).  
+     - Performance optimization is required to prevent slow filtering on large datasets.  

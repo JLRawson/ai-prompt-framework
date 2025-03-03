@@ -1,0 +1,10 @@
+### **4. Scheduling & Notifications**  
+   - **4.1 Due Dates**: Users can set due dates for tasks.  
+     - The system should automatically adjust for different time zones.  
+     - Overdue tasks should be highlighted for visibility.  
+   - **4.2 Task Reminders**: Users receive notifications for upcoming or overdue tasks.  
+     - Notifications should be configurable (email, push notifications, etc.).  
+     - Users should be able to set recurring or one-time reminders.  
+   - **4.3 Recurring Tasks**: Users can create tasks that repeat at specified intervals.  
+     - Recurring task instances should not overwrite original task history.  
+     - Should support complex recurrence patterns (e.g., "Every Monday and Wednesday").  

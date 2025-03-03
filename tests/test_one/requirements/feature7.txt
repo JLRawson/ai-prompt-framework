@@ -1,0 +1,10 @@
+### **7. Task Status & Progress Tracking**  
+   - **7.1 Status Management**: Tasks have statuses like "To Do," "In Progress," and "Completed."  
+     - Status transitions should be logged for tracking.  
+     - Users should be able to define custom statuses.  
+   - **7.2 Progress Tracking**: Users can track task progress using percentages.  
+     - Percentage updates should be auto-saved and sync in real-time.  
+     - A history of progress updates should be available.  
+   - **7.3 Visual Workflow**: A Kanban board view for better task visualization.  
+     - The UI should remain responsive even with large task boards.  
+     - Drag-and-drop interactions should be fluid and intuitive.  

@@ -1,6 +1,7 @@
 import openai
 import json
 import os
+import re
 from support.file_structure import get_filtered_file_paths  # Ensure file_structure.py is in the same directory
 
 def summarize_files(relative_path, banned_extensions, limit):
@@ -62,9 +63,13 @@ def summarize_files(relative_path, banned_extensions, limit):
         {file_extension} file titled {file_name}. The product you are working
         on is a {user_inputs['product_type']} software that {user_inputs['product_description']}.
         Your task is to summarize the file into 3 components: a sentence
-        summary describing the file’s {user_inputs['important_aspects']}.
+        summary describing the file’s main purpose, a summary describing
+        the file’s main purpose, and a list of the code’s files method declarations with a phrase description.
+        {user_inputs['important_aspects']}. The sentence summary should start and end with <sentenceSummary> tags. 
+        The paragraph summary should start and end with <paragraphSummary> tags. 
+        The methods should start with <methods> and end with <methods> tags.
         {user_inputs['additional_constraints']} The output should have no additional
-        wording besides the summary. If it’s not a part of the summary,
+        wording besides the summary and methods. If it’s not a part of the summary,
         don’t write anything, not even additional notes to the user.
 
         Below is the content of the file:
@@ -74,9 +79,9 @@ def summarize_files(relative_path, banned_extensions, limit):
         ```
         """
 
-        print(f"Prompt for {file_name}:")
-        print(prompt)
-        print(f"Generating summary for {file_name}...")
+        # print(f"Prompt for {file_name}:")
+        # print(prompt)
+        # print(f"Generating summary for {file_name}...")
 
         completion = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -86,10 +91,16 @@ def summarize_files(relative_path, banned_extensions, limit):
 
         summary = completion.choices[0].message.content.strip()
 
+        sentence_summary_match = re.search(r"<sentenceSummary>(.*?)</sentenceSummary>", summary, re.DOTALL)
+        paragraph_summary_match = re.search(r"<paragraphSummary>(.*?)</paragraphSummary>", summary, re.DOTALL)
+        methods_match = re.search(r"<methods>(.*?)</methods>", summary, re.DOTALL)
+
         file_data[file_name] = {
             "path": file_path,
             "file_extension": file_extension,
-            "summary": summary
+            "sentence_summary": sentence_summary_match.group(1).strip() if sentence_summary_match else "",
+            "paragraph_summary": paragraph_summary_match.group(1).strip() if paragraph_summary_match else "",
+            "methods": methods_match.group(1).strip() if methods_match else ""
         }
 
     return file_data
@@ -106,4 +117,12 @@ if __name__ == "__main__":
         print(f"\nFile: {file_name}")
         print(f"Path: {attributes['path']}")
         print(f"Extension: {attributes['file_extension']}")
-        print(f"Summary: {attributes['summary']}")
+        
+        print("\nSentence Summary:")
+        print(attributes.get("sentence_summary", "N/A"))
+        
+        print("\nParagraph Summary:")
+        print(attributes.get("paragraph_summary", "N/A"))
+        
+        print("\nMethods:")
+        print(attributes.get("methods", "N/A"))

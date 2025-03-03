@@ -2,6 +2,7 @@
 
 1. In terminal: 
     pip install openai
+    pip install whoosh
 
 2. Create config.json:
     {

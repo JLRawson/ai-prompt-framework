@@ -1,1 +1,0 @@
-Add a feature to the ToDoList application to allow setting a priority for each task. The priority should be a value between 1 (highest) and 5 (lowest). Modify the Task class to include this new attribute and update the functionalities to handle task priorities accordingly.

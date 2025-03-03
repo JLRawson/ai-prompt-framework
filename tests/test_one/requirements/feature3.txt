@@ -1,0 +1,10 @@
+### **3. Task Organization**  
+   - **3.1 Categories**: Users can categorize tasks (e.g., Work, Personal).  
+     - Categories should be customizable and support color coding.  
+     - Tasks should support multiple categories if needed.  
+   - **3.2 Labels & Tags**: Users can assign multiple labels to tasks.  
+     - Labels should be searchable for quick task retrieval.  
+     - Security measures should prevent unauthorized users from modifying shared labels.  
+   - **3.3 Task Grouping**: Tasks can be grouped by category, status, or priority.  
+     - Grouping operations should be optimized for large task sets.  
+     - Changes in grouping should not affect existing user-defined orders unless intended.  

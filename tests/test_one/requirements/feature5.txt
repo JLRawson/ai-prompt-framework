@@ -1,0 +1,7 @@
+### **5. Subtasks & Dependencies**  
+   - **5.1 Subtasks**: Users can create subtasks within a parent task.  
+     - Subtasks should inherit properties (like priority) from the parent task but allow overrides.  
+     - Completion of subtasks should automatically update the parent task’s progress.  
+   - **5.2 Task Dependencies**: Certain tasks can be blocked until prerequisite tasks are completed.  
+     - The system should prevent starting dependent tasks before prerequisites are done.  
+     - Dependencies should be visually represented in the UI for clarity.  

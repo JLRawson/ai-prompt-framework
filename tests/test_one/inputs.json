@@ -6,6 +6,12 @@
       "important_aspects": "The user should be able to add, edit, and delete tasks.",
       "additional_constraints": "The user should be able to add, edit, and delete tasks."
     },
-    "prompt-two": {}
+    "use_case": {
+      "role": "Software Engineer",
+      "feature_name": "Support Task Prioritization",
+      "product_description": "A simple to do task manager that allows users to add, edit, and delete tasks.",
+      "use_case_description": "As a user, I want to be able to prioritize tasks so that I can focus on the most important tasks first.",
+      "low_number": 7
+  }
   }
   
