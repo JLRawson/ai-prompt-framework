@@ -1,0 +1,11 @@
+{
+    "prompt-one": {
+      "role": "Software Engineer",
+      "product_type": "To Do Task Manager",
+      "product_description": "A simple to do task manager that allows users to add, edit, and delete tasks.",
+      "important_aspects": "The user should be able to add, edit, and delete tasks.",
+      "additional_constraints": "The user should be able to add, edit, and delete tasks."
+    },
+    "prompt-two": {}
+  }
+  
