@@ -11,5 +11,6 @@
 
 
 # To Do
-1. Identify Related Code Files Pormpt (prompt)
-2. Acceptance Criteria with related Context Prompt (prompt)
+1. Acceptance Criteria with related Context Prompt (prompt)
+
+Note: good_acceptance_criteria.txt is from this [Atlassian article](https://www.atlassian.com/work-management/project-management/acceptance-criteria)

@@ -1,0 +1,8 @@
+Characteristics of good acceptance criteria
+Effective acceptance criteria share several key characteristics that ensure clear communication and a smooth development process. Here's a breakdown of these essential components:
+
+Clarity and conciseness: Write acceptance criteria in plain language that all stakeholders, including developers, product owners, and testers, can easily understand. Avoid technical jargon or ambiguous phrasing. State the criteria concisely and directly, focusing on specific outcomes.
+Testability: Well-written acceptance criteria are demonstrably verifiable. Each criterion should translate into one or more clear tests that determine whether the implemented functionality meets the defined requirements. This allows for objective evaluation and eliminates room for misinterpretation.
+Outcome: Focus on the desired result or user experience rather than the technical implementation details. The criteria should define the feature's goal, not how to build it. This empowers developers while ensuring the final product aligns with user needs.
+Measurability: Whenever possible, express the criteria in measurable terms. This allows for a clear pass/fail determination during testing. For example, instead of stating, "The search results page should have visual appeal," a better criterion might be, "The search results page should display product images with a minimum resolution of 300x300 pixels."
+Independence: Ideally, each acceptance criterion should be independent of others. This enables you to test and evaluate in isolation, streamlining the testing process.
