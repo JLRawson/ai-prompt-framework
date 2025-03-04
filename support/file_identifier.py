@@ -56,7 +56,7 @@ def get_related_code_files(repo_summary, relative_path):
                     {"role": "user", "content": prompt}]
     )
 
-    print(completion.choices[0].message.content)
+    # print(completion.choices[0].message.content)
     
     raw_file_paths = completion.choices[0].message.content.strip().split("\n")
     valid_file_paths = []
@@ -65,7 +65,7 @@ def get_related_code_files(repo_summary, relative_path):
         full_path = os.path.join(relative_path, path.lstrip("/"))
         normalized_path = full_path.replace("\\", "/")
         if os.path.exists(normalized_path):
-            valid_file_paths.append(normalized_path)
+            valid_file_paths.append(path)
     
     return valid_file_paths
 
