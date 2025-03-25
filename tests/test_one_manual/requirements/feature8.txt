@@ -1,0 +1,14 @@
+### **8. Non-Functional Requirements**  
+   - **8.1 Performance**: The system should handle a large number of tasks without performance degradation.  
+   - **8.2 Security**:  
+     - User authentication should be implemented (OAuth, 2FA, etc.).  
+     - Data should be encrypted both in transit and at rest.  
+   - **8.3 Reliability**:  
+     - The system should have auto-recovery mechanisms in case of failure.  
+     - Scheduled backups should ensure no data loss.  
+   - **8.4 Usability**:  
+     - The UI should be intuitive and accessible for all users.  
+     - Dark mode and high-contrast themes should be available.  
+   - **8.5 Scalability**:  
+     - The system should support thousands of concurrent users.  
+     - Database queries should be optimized for efficiency.  

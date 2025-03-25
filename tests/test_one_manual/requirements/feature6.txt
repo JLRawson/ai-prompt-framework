@@ -1,0 +1,10 @@
+### **6. Collaboration & Sharing**  
+   - **6.1 Shared Tasks**: Users can assign tasks to other users.  
+     - Users should receive notifications when assigned a new task.  
+     - Task ownership and reassignment should be logged for accountability.  
+   - **6.2 Multi-User Collaboration**: Multiple users can edit and update shared tasks.  
+     - Concurrent edits should be handled properly to prevent data conflicts.  
+     - Changes should be trackable with timestamps and user identifiers.  
+   - **6.3 Access Control**: Users can define permissions (view-only, edit, assign).  
+     - Permissions should be role-based for scalability.  
+     - Unauthorized users should not be able to modify task data.  

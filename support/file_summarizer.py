@@ -1,46 +1,12 @@
-import openai
-import json
 import os
 import re
-from support.file_structure import get_filtered_file_paths  # Ensure file_structure.py is in the same directory
+from support.file_structure import get_filtered_file_paths
+from support.openai_client import send_prompt
 
-def summarize_files(relative_path, banned_extensions, limit):
-    # Setup
-    with open("config.json") as config_file:
-        config = json.load(config_file)
+def summarize_files(relative_path, banned_extensions, banned_filenames, limit, user_inputs):
 
-    api_key = config["api_key"]
-    client = openai.OpenAI(api_key=api_key)
-
-    file_paths = get_filtered_file_paths(relative_path, banned_extensions=banned_extensions, limit=limit)
+    file_paths = get_filtered_file_paths(relative_path, banned_extensions=banned_extensions, banned_filenames=banned_filenames, limit=limit)
     file_data = {}
-
-    # Load default inputs from the JSON file
-    def load_inputs():
-        try:
-            with open(relative_path + "/inputs.json", "r") as file:
-                data = json.load(file)
-                return data.get("prompt-one", {})  # Load "prompt-one" inputs
-        except FileNotFoundError:
-            print(f"Error: The file at {relative_path}/inputs.json was not found. Proceeding with manual input.")
-            return {}
-        except json.JSONDecodeError:
-            print(f"Error: Failed to decode JSON from {relative_path}/inputs.json. Proceeding with manual input.")
-            return {}
-
-    user_inputs = load_inputs()
-
-    questions = {
-        "role": "What is your role in this project? (e.g., Software Engineer, Product Manager, QA Tester): ",
-        "product_type": "What type of software is this? (e.g., Web App, Mobile App, API Service, Library): ",
-        "product_description": "Briefly describe what this software does. (e.g., handles user authentication, processes payments): ",
-        "important_aspects": "What are the key aspects of the files that need to be summarized? (e.g., security, structure, dependencies): ",
-        "additional_constraints": "Are there any specific constraints or requirements for the summary? (e.g., include security concerns, focus on performance optimizations): "
-    }
-
-    for key, question in questions.items(): # Prompt for missing inputs
-        if key not in user_inputs or not user_inputs[key]: 
-            user_inputs[key] = input(question).strip()
 
     for file_path in file_paths: # Process each code file
         file_name = os.path.basename(file_path)
@@ -83,13 +49,7 @@ def summarize_files(relative_path, banned_extensions, limit):
         # print(prompt)
         # print(f"Generating summary for {file_name}...")
 
-        completion = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "system", "content": "You are a helpful assistant."},
-                      {"role": "user", "content": prompt}]
-        )
-
-        summary = completion.choices[0].message.content.strip()
+        summary = send_prompt(prompt)
 
         sentence_summary_match = re.search(r"<sentenceSummary>(.*?)</sentenceSummary>", summary, re.DOTALL)
         paragraph_summary_match = re.search(r"<paragraphSummary>(.*?)</paragraphSummary>", summary, re.DOTALL)

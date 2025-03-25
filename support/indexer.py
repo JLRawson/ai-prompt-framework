@@ -1,9 +1,8 @@
-import json
 import os
-import openai
 from whoosh.index import create_in, open_dir
 from whoosh.fields import Schema, TEXT, ID
 from whoosh.qparser import QueryParser
+from support.openai_client import send_prompt
 
 def create_index(index_dir: str, requirements_folder: str):
     schema = Schema(title=ID(stored=True), content=TEXT)
@@ -40,44 +39,7 @@ def search_requirements(index_dir: str, query_str: str):
 
     return results_list
 
-def generate_search_terms(relative_path):
-    # Setup
-    with open("config.json") as config_file:
-        config = json.load(config_file)
-
-    api_key = config["api_key"]
-    client = openai.OpenAI(api_key=api_key)
-
-    # Load default inputs from the JSON file
-    def load_inputs():
-        try:
-            with open(f"{relative_path}/inputs.json", "r") as file:
-                data = json.load(file)
-                return data.get("use_case", {})  # Load "use_case" inputs
-        except FileNotFoundError:
-            print(f"Error: The file at {relative_path}/inputs.json was not found. Proceeding with manual input.")
-            return {}
-        except json.JSONDecodeError:
-            print(f"Error: Failed to decode JSON from {relative_path}/inputs.json. Proceeding with manual input.")
-            return {}
-
-    user_inputs = load_inputs()
-
-    # Questions to ask if values are missing
-    questions = {
-        "role": "What is your role in this project? (e.g., Software Engineer, Product Manager, QA Tester): ",
-        "feature_name": "What is the feature name you are working on? (e.g., Invoice Processing, User Authentication): ",
-        "product_description": "Briefly describe what this product does. (e.g., handles user authentication, processes payments): ",
-        "use_case_description": "What is the specific use case you are implementing? (e.g., optimizing invoice scanning and data extraction): ",
-        "low_number": "How many search terms should be generated? (Enter a number, e.g., 5, 7, 10): "
-    }
-
-    # Prompt for missing inputs
-    for key, question in questions.items():
-        if key not in user_inputs or not user_inputs[key]:
-            user_inputs[key] = input(question).strip()
-            if key == "low_number":
-                user_inputs[key] = int(user_inputs[key])  # Ensure numerical input
+def generate_search_terms(relative_path, user_inputs):
 
     # Generate prompt dynamically
     prompt = f"""
@@ -94,13 +56,7 @@ def generate_search_terms(relative_path):
         Do not add anything extra besides the search terms, absolutely no comments, explanations, or additional titles.
     """
 
-    completion = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "system", "content": "You are a helpful assistant."},
-                  {"role": "user", "content": prompt}]
-    )
-
-    search_terms_response = completion.choices[0].message.content.strip()
+    search_terms_response = send_prompt(prompt)
     search_terms = [term.strip() for term in search_terms_response.split(",") if term.strip()]
     
     return search_terms

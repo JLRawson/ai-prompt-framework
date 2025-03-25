@@ -1,29 +1,7 @@
 import os
-import json
-import openai
+from support.openai_client import send_prompt
 
-def get_related_code_files(repo_summary, relative_path):
-
-    with open("config.json") as config_file:
-        config = json.load(config_file)
-
-    api_key = config["api_key"]
-    client = openai.OpenAI(api_key=api_key)
-
-    def load_inputs():
-        try:
-            with open(relative_path + "/inputs.json", "r") as file:
-                data = json.load(file)
-                return data.get("use_case", {})
-        except FileNotFoundError:
-            print(f"Error: The file at {relative_path}/inputs.json was not found. Proceeding with manual input.")
-            return {}
-        except json.JSONDecodeError:
-            print(f"Error: Failed to decode JSON from {relative_path}/inputs.json. Proceeding with manual input.")
-            return {}
-    
-    user_inputs = load_inputs()
-
+def get_related_code_files(repo_summary, relative_path, user_inputs):
     prompt = f"""
         You are a {user_inputs['role']} that is going to start developing a use case about
         {user_inputs['feature_name']} on a product about {user_inputs['product_description']}.
@@ -49,18 +27,9 @@ def get_related_code_files(repo_summary, relative_path):
     """
 
     # print(prompt)
-
-    completion = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": prompt}]
-    )
-
-    # print(completion.choices[0].message.content)
+    raw_file_paths = send_prompt(prompt).split("\n")
     
-    raw_file_paths = completion.choices[0].message.content.strip().split("\n")
     valid_file_paths = []
-    
     for path in raw_file_paths:
         full_path = os.path.join(relative_path, path.lstrip("/"))
         normalized_path = full_path.replace("\\", "/")
@@ -68,4 +37,3 @@ def get_related_code_files(repo_summary, relative_path):
             valid_file_paths.append(path)
     
     return valid_file_paths
-
