@@ -9,6 +9,8 @@
         "api_key": "(secret key goes here)"
     }
 
+3. To add a repo, add it in /tests as its own subfolder.
+
 Resources: 
 - good_acceptance_criteria.txt is from [Atlassian article](https://www.atlassian.com/work-management/project-management/acceptance-criteria)
 - open_source_test is from [v4 repo](https://github.com/bchiang7/v4/tree/main)
