@@ -13,4 +13,6 @@
 # To Do
 1. Acceptance Criteria with related Context Prompt (prompt)
 
-Note: good_acceptance_criteria.txt is from this [Atlassian article](https://www.atlassian.com/work-management/project-management/acceptance-criteria)
+Resources: 
+- good_acceptance_criteria.txt is from [Atlassian article](https://www.atlassian.com/work-management/project-management/acceptance-criteria)
+- open_source_test is from [v4 repo](https://github.com/bchiang7/v4/tree/main)

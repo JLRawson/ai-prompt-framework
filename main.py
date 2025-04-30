@@ -7,9 +7,10 @@ from support.indexer import create_index, generate_search_terms, search_requirem
 from support.user_inputs import load_or_prompt_inputs 
 from support.file_filters import banned_extensions, banned_filenames
 
-relative_path = "./tests/open_source_test"
+relative_path = "./tests/test_one_manual"
+debug = True
 
-limit = 2
+limit = 100  # Code File Limit
 file_paths = get_filtered_file_paths(relative_path, banned_extensions=banned_extensions, banned_filenames=banned_filenames, limit=limit)
 
 print("=== Step 1 Inputs ===")
@@ -19,19 +20,20 @@ print("==== Step 1 Results ====")
 
 summaries = summarize_files(relative_path, banned_extensions, banned_filenames, limit, prompt_one_input)
 
-# for file_name, attributes in summaries.items():
-#     print(f"\nFile: {file_name}")
-#     print(f"Path: {attributes['path']}")
-#     print(f"Extension: {attributes['file_extension']}")
-    
-#     print("\nSentence Summary:")
-#     print(attributes.get("sentence_summary", "N/A"))
-    
-#     print("\nParagraph Summary:")
-#     print(attributes.get("paragraph_summary", "N/A"))
-    
-#     print("\nMethods:")
-#     print(attributes.get("methods", "N/A"))
+if debug:
+    for file_name, attributes in summaries.items():
+        print(f"\nFile: {file_name}")
+        print(f"Path: {attributes['path']}")
+        print(f"Extension: {attributes['file_extension']}")
+        
+        print("\nSentence Summary:")
+        print(attributes.get("sentence_summary", "N/A"))
+        
+        # print("\nParagraph Summary:")
+        # print(attributes.get("paragraph_summary", "N/A"))
+        
+        # print("\nMethods:")
+        # print(attributes.get("methods", "N/A"))
 
 print("=== Step 2/3 Inputs ===")
 
@@ -54,8 +56,9 @@ for term in search_terms:
         if result not in search_results:
             search_results.append(result)
 
-# print("Search Terms:", search_terms)
-# print("Search Results:", search_results)
+if debug:
+    print("Search Terms:", search_terms)
+    print("Search Results:", search_results)
 
 
 print("==== Step 3 Results ====")
@@ -69,11 +72,13 @@ for file_name, attributes in summaries.items():
 
 related_code_files = get_related_code_files(repo_summary, relative_path, user_case_inputs)
 
-# print("Related Code Files:", related_code_files)
+if debug:
+    print("Related Code Files:", related_code_files)
 
 print("==== Step 4 Results ====")
 
-# print("related_code_files:", summaries)
+if debug:
+    print("related_code_files:", summaries)
 
 code_summary = ""
 
@@ -82,20 +87,23 @@ for summary in summaries:
     if summary_path in related_code_files:
         code_summary += f"{summary_path}: {summaries[summary]['paragraph_summary']}\n"
 
-# print("Code Summary:", code_summary)
+if debug:
+    print("Code Summary:", code_summary)
 
 good_acceptance_criteria = ""
 
 with open("./support/good_acceptance_criteria.txt", "r") as file:
     good_acceptance_criteria = file.read()
 
-# print("Good Acceptance Criteria:", good_acceptance_criteria)
+if debug:
+    print("Good Acceptance Criteria:", good_acceptance_criteria)
 
 related_requirements_results = ""
 for result in search_results:
     related_requirements_results += f"{result}\n"
 
-# print("Related Requirements:", related_requirements_results)
+if debug:
+    print("Related Requirements:", related_requirements_results)
 
 acceptance_criteria = generate_acceptance_criteria(relative_path, code_summary, good_acceptance_criteria, related_requirements_results, user_case_inputs)
 
